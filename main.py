@@ -42,7 +42,7 @@ def process(audio_file, ap, example_numerals=None):
 
     flag = True
 
-    return flag, "Запись прошла проверку успешно."
+    return flag, None
 
 
 def main():
@@ -52,9 +52,9 @@ def main():
     audio_file = "audio_samples/ogg/overload_3.ogg"
     example_numerals = [1, 2, 3, 4, 8, 8]
 
-    status, message = process(audio_file, ap, example_numerals)
+    ok, message = process(audio_file, ap, example_numerals)
 
-    return {"status": status, "message": message}
+    return {"ok": ok, "message": message}
 
 
 if __name__ == "__main__":
