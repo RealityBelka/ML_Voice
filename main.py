@@ -2,7 +2,9 @@ import os
 from AudioParams import AudioParams
 
 
-def process(audio_file, ap):
+def process(audio_file, ap, example_numerals=None):
+
+    flag = False  # True, если проверка пройдена успешно
 
     audio_wav = audio_file.replace(audio_file[-3:], "wav")
 
@@ -33,7 +35,12 @@ def process(audio_file, ap):
     if not check_single_speaker:
         return "Посторонние шумы. Переместитесь в более тихое место"
 
-    # print(recognized_text)
+    result = [int(x) for x in recognized_text.split()]
+
+    if example_numerals is not None and result != example_numerals:
+        return "Произносите только указанные на экране цифры"
+
+    flag = True
 
     return "Запись прошла проверку успешно."
 
@@ -41,9 +48,11 @@ def process(audio_file, ap):
 def main():
     ap = AudioParams()
 
-    audio_file = "audio_samples/ogg/normal_1.ogg"
+    # Пример получаемых файлов: аудиозапись и массив показанных чисел
+    audio_file = "audio_samples/ogg/overload_3.ogg"
+    example_numerals = [1, 2, 3, 4, 8, 8]
 
-    message = process(audio_file, ap)
+    message = process(audio_file, ap, example_numerals)
 
     print(message)
 

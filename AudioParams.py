@@ -87,7 +87,6 @@ class AudioParams:
         """Проверяет язык записи"""
         try:
             lang = detect(transcription)
-            print(lang)
             return lang
         except:
             lang = "ru" if transcription else None
