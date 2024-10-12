@@ -76,7 +76,7 @@ class AudioParams:
             audio = recognizer.record(source)
         try:
             text = recognizer.recognize_google(audio, language="ru_RU")
-            # wh = WhisperHuggingface(audio)  # Вторая версия, на выбор (но надо отдебажить)
+            # wh = WhisperHuggingface(audio)  # Вторая версия, на выбор
             # text = wh.process()
             clean_text = self.replace_non_alphanumeric(text)
             return clean_text
@@ -115,16 +115,12 @@ class AudioParams:
         """
         vad = webrtcvad.Vad(2)  # Агрессивность VAD (0-3)
 
-        # Загружаем аудиофайл и приводим его к нужной частоте дискретизации
         y, _ = librosa.load(audio_path, sr=sample_rate)
 
-        # Преобразуем аудио в 16-битный формат PCM (webrtcvad требует 16-битный формат)
         y = (y * 32768).astype(np.int16)
 
-        # Рассчитываем длину кадра в сэмплах (например, 30 мс -> 30/1000 * sample_rate)
         frame_length = int(sample_rate * frame_duration / 1000)
 
-        # Разбиваем аудио на кадры по длительности
         frames = [y[i:i + frame_length] for i in range(0, len(y), frame_length)]
 
         segments = {
@@ -134,10 +130,8 @@ class AudioParams:
 
         for frame in frames:
             if len(frame) != frame_length:
-                # Если длина кадра не соответствует ожидаемой длине, пропускаем его
                 continue
 
-            # Проверяем, является ли кадр активным (есть ли в нем речь)
             is_speech = vad.is_speech(frame.tobytes(), sample_rate)
 
             if is_speech:
@@ -156,10 +150,8 @@ class AudioParams:
         """
         non_active_segments = segments["non_active"]
 
-        # Вычисляем дисперсию для каждого неактивного сегмента
         variances = [np.var(segment) for segment in non_active_segments]
 
-        # Возвращаем среднюю дисперсию по всем тихим сегментам
         avg_variance = np.mean(variances) if variances else 0
 
         return avg_variance
