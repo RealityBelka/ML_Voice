@@ -6,7 +6,7 @@ def audio_process(ap, audio_file, example_numerals=None):
 
     flag = False  # True, если проверка пройдена успешно
 
-    audio_wav = audio_file.replace(audio_file[-3:], "wav")
+    audio_wav = audio_file .replace(audio_file[-3:], "wav")
 
     if not os.path.exists(audio_wav):
         ap.convert_to_wav(audio_file, audio_wav)
@@ -35,10 +35,12 @@ def audio_process(ap, audio_file, example_numerals=None):
     if not check_single_speaker:
         return flag, "Посторонние шумы. Переместитесь в более тихое место"
 
-    recognized_numerals = [int(x) for x in recognized_text.split()]
-
-    if example_numerals is not None and recognized_numerals != example_numerals:
-        return flag, "Произносите только указанные на экране цифры"
+    try:
+        recognized_numerals = [int(x) for x in recognized_text.split()]
+        if example_numerals is not None and recognized_numerals != example_numerals:
+            return flag, "Произносите только указанные на экране цифры"
+    except:
+        pass
 
     flag = True
 
@@ -49,7 +51,7 @@ def main():
     ap = AudioParams()
 
     # Пример получаемых файлов: аудиозапись и массив показанных чисел
-    audio_file = "audio_samples/ogg/overload_3.ogg"
+    audio_file = "audio_samples/wav/samara.wav"
     example_numerals = [1, 2, 3, 4, 8, 8]
 
     ok, message = audio_process(ap, audio_file, example_numerals)
