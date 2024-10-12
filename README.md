@@ -21,12 +21,14 @@
    - возвращает состояние проверки записи **status** и сообщение об ошибке **message**.
    - Пример использования:
    ```python
-   from your_module import process_audio
+   from AudioParams import AudioParams
+   
+   ap = AudioParams()
 
    audio_file = "path_to_audio.wav"
    example_numerals = [1, 2, 3, 4]
 
-   status, message = process_audio(audio_file, example_numerals)
+   status, message = process_audio(ap, audio_file, example_numerals)
    print(f"ok: {status}, message: {message}")
    ```
    

@@ -2,8 +2,7 @@ import os
 from AudioParams import AudioParams
 
 
-def process(audio_file, example_numerals=None):
-    ap = AudioParams()
+def audio_process(ap, audio_file, example_numerals=None):
 
     flag = False  # True, если проверка пройдена успешно
 
@@ -47,12 +46,13 @@ def process(audio_file, example_numerals=None):
 
 
 def main():
+    ap = AudioParams()
 
     # Пример получаемых файлов: аудиозапись и массив показанных чисел
     audio_file = "audio_samples/ogg/overload_3.ogg"
     example_numerals = [1, 2, 3, 4, 8, 8]
 
-    ok, message = process(audio_file, example_numerals)
+    ok, message = audio_process(ap, audio_file, example_numerals)
 
     return {"ok": ok, "message": message}
 
