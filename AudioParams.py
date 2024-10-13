@@ -78,7 +78,6 @@ class AudioParams:
                 new_text.append(self.number_words[word])
         return new_text
 
-
     def text_recognition(self, audio_file):
         """Производит распознавание текста из аудио."""
         recognizer = sr.Recognizer()
