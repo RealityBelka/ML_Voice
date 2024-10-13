@@ -12,9 +12,9 @@ from pydub import AudioSegment
 class AudioParams:
     def __init__(self):
         self.number_words = {
-            "ноль": 0, "один": 1, "раз": 1, "два": 2, "три": 3, "четыре": 4,
-            "пять": 5, "шесть": 6, "семь": 7, "восемь": 8, "девять": 9,
-            "десять": 10
+            "ноль": '0', "один": '1', "раз": '1', "два": '2', "три": '3', "четыре": '4',
+            "пять": '5', "шесть": '6', "семь": '7', "восемь": '8', "девять": '9',
+            "десять": '10'
         }
 
     def convert_to_wav(self, input_file, output_file):
@@ -68,6 +68,16 @@ class AudioParams:
         :return: текст с замененными символами
         """
         return re.sub(r"[^a-zA-Zа-яА-ЯёЁ0-9]", ' ', text)
+
+    def replace_word_numerals(self, text):
+        new_text = []
+        for word in text:
+            if word.isdigit():
+                new_text.append(word)
+            else:
+                new_text.append(self.number_words[word])
+        return new_text
+
 
     def text_recognition(self, audio_file):
         """Производит распознавание текста из аудио."""

@@ -27,7 +27,9 @@ def audio_process(ap, audio_file, example_numerals=None):
 
     only_numerals = ap.only_numerals(recognized_text)
     # print("4) only_numerals: ", only_numerals)
-    if not only_numerals:
+    if only_numerals:
+        recognized_text = ap.replace_word_numerals(recognized_text.split())
+    else:
         return flag, "Произносите только указанные на экране цифры"
 
     check_single_speaker = ap.check_single_speaker(audio_wav)
@@ -35,12 +37,10 @@ def audio_process(ap, audio_file, example_numerals=None):
     if not check_single_speaker:
         return flag, "Посторонние шумы. Переместитесь в более тихое место"
 
-    try:
-        recognized_numerals = [int(x) for x in recognized_text.split()]
-        if example_numerals is not None and recognized_numerals != example_numerals:
-            return flag, "Произносите только указанные на экране цифры"
-    except:
-        pass
+    recognized_numerals = [int(x) for x in recognized_text]
+    print(recognized_numerals)
+    if example_numerals is not None and recognized_numerals != example_numerals:
+        return flag, "Произносите только указанные на экране цифры"
 
     flag = True
 
@@ -52,7 +52,7 @@ def main():
 
     # Пример получаемых файлов: аудиозапись и массив показанных чисел
     audio_file = "audio_samples/wav/samara.wav"
-    example_numerals = [1, 2, 3, 4, 8, 8]
+    example_numerals = [1, 1, 1, 1, 2, 3]
 
     ok, message = audio_process(ap, audio_file, example_numerals)
 
