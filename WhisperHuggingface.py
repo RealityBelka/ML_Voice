@@ -44,12 +44,11 @@ class WhisperHuggingface:
 
         audio_path = "audio_samples/multilang_3.ogg"
         audio, sampling_rate = librosa.load(audio_path, sr=16000)
-        # Убираем тишину
+
         audio_trimmed, _ = librosa.effects.trim(audio)
 
         inputs = processor(audio_trimmed, sampling_rate=sampling_rate, return_tensors="pt").to(self.device)
 
-        # Cast input features to the same data type as the model's weights
         inputs.input_features = inputs.input_features.type(model.parameters().__next__().dtype)
 
         with torch.no_grad():

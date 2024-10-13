@@ -24,10 +24,8 @@ class AudioParams:
         try:
             filetype = input_file[-3:]
 
-            # Загружаем аудиофайл AAC
             audio = AudioSegment.from_file(input_file, format=filetype)
 
-            # Экспортируем аудиофайл в формате WAV
             audio.export(output_file, format="wav")
             print(f"Файл успешно преобразован в {output_file}")
 
@@ -175,8 +173,6 @@ class AudioParams:
             segments = self.get_vad_segments(audio_file)
 
             avg_variance = self.analyze_silence(segments)
-
-            # print(f"Средняя дисперсия на тихих участках: {avg_variance}")
 
             if avg_variance > silence_threshold:
                 return False

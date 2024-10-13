@@ -11,8 +11,8 @@ def audio_process(ap, audio_file, example_numerals=None):
     if not os.path.exists(audio_wav):
         ap.convert_to_wav(audio_file, audio_wav)
 
+    '''1-2'''
     noise_level = ap.analyze_audio_quality(audio_wav)
-    # print("1-2) noise_level: ", noise_level)
     if noise_level == "тихо":
         return flag, "Говорите громче или переместитесь в более тихое место"
     if noise_level == "громко":
@@ -20,20 +20,21 @@ def audio_process(ap, audio_file, example_numerals=None):
 
     recognized_text = ap.text_recognition(audio_wav)
 
+    '''3'''
     language = ap.check_language(recognized_text)
-    # print("3) language: ", language)
     if language != "ru":
         return flag, "Произносите указанные цифры на русском языке"
 
     only_numerals = ap.only_numerals(recognized_text)
-    # print("4) only_numerals: ", only_numerals)
+
+    '''4'''
     if only_numerals:
         recognized_text = ap.replace_word_numerals(recognized_text.split())
     else:
         return flag, "Произносите только указанные на экране цифры"
 
+    '''5'''
     check_single_speaker = ap.check_single_speaker(audio_wav)
-    # print("5) check_single_speaker: ", check_single_speaker)
     if not check_single_speaker:
         return flag, "Посторонние шумы. Переместитесь в более тихое место"
 
