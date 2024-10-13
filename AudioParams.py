@@ -6,8 +6,6 @@ from langdetect import detect
 import speech_recognition as sr
 from pydub import AudioSegment
 
-# from WhisperHuggingface import WhisperHuggingface
-
 
 class AudioParams:
     def __init__(self):

@@ -51,7 +51,7 @@ def main():
     ap = AudioParams()
 
     # Пример получаемых файлов: аудиозапись и массив показанных чисел
-    audio_file = "audio_samples/wav/samara.wav"
+    audio_file = "audio_samples/wav/samara.ogg"
     example_numerals = [1, 1, 1, 1, 2, 3]
 
     ok, message = audio_process(ap, audio_file, example_numerals)
